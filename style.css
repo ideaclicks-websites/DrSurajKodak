@@ -4148,3 +4148,38 @@ h1 em {
     background-color: #ffffff; /* optional */
 }
 /* Floating Buttons Code ENDS  */
+
+.footer-bottom {
+  border-top: 1px solid #3A2B20;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #9C8A7A;
+  font-size: .61rem
+}
+
+.footer-bottom a {
+  color: #C9B9AC
+}
+
+.footer-bottom a:hover {
+  color: #fff
+}
+
+.powered-by-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px
+}
+
+.powered-by-logo {
+  height: 22px;
+  width: 22px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #fff;
+  padding: 2px;
+  border: 1px solid #3A2B20
+}
