@@ -1,25 +1,34 @@
-const menuBtn=document.getElementById("menuBtn"),nav=document.getElementById("navMenu");
-menuBtn.addEventListener("click",()=>{const open=nav.classList.toggle("open");menuBtn.setAttribute("aria-expanded",open)});
-document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}));
+try{
+  const menuBtn=document.getElementById("menuBtn"),nav=document.getElementById("navMenu");
+  if(menuBtn&&nav){
+    menuBtn.addEventListener("click",()=>{const open=nav.classList.toggle("open");menuBtn.setAttribute("aria-expanded",open)});
+    document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>{nav.classList.remove("open");menuBtn.setAttribute("aria-expanded","false")}));
+  }
+}catch(e){console.error("Menu init failed:",e);}
 
-const lightbox=document.getElementById("lightbox"), lightImg=document.getElementById("lightboxImg");
-document.querySelectorAll(".gallery-item").forEach(item=>{
-  item.addEventListener("click",()=>{
-    lightImg.src=item.dataset.img;
-    lightImg.alt=item.dataset.alt||"Clinic image";
-    lightbox.classList.add("open");
-    lightbox.setAttribute("aria-hidden","false");
-    document.body.style.overflow="hidden";
-  });
-});
-function closeLightbox(){lightbox.classList.remove("open");lightbox.setAttribute("aria-hidden","true");lightImg.src="";document.body.style.overflow=""}
-document.getElementById("closeLightbox").addEventListener("click",closeLightbox);
-lightbox.addEventListener("click",e=>{if(e.target===lightbox)closeLightbox()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLightbox()});
+try{
+  const lightbox=document.getElementById("lightbox"), lightImg=document.getElementById("lightboxImg");
+  if(lightbox&&lightImg){
+    document.querySelectorAll(".gallery-item").forEach(item=>{
+      item.addEventListener("click",()=>{
+        lightImg.src=item.dataset.img;
+        lightImg.alt=item.dataset.alt||"Clinic image";
+        lightbox.classList.add("open");
+        lightbox.setAttribute("aria-hidden","false");
+        document.body.style.overflow="hidden";
+      });
+    });
+    function closeLightbox(){lightbox.classList.remove("open");lightbox.setAttribute("aria-hidden","true");lightImg.src="";document.body.style.overflow=""}
+    document.getElementById("closeLightbox")?.addEventListener("click",closeLightbox);
+    lightbox.addEventListener("click",e=>{if(e.target===lightbox)closeLightbox()});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLightbox()});
+  }
+}catch(e){console.error("Lightbox init failed:",e);}
 
 
 /* ===== FINAL CAROUSEL BEHAVIOUR ===== */
 (function(){
+ try{
   const gallery=document.querySelector(".gallery-v2");
   const galleryNext=document.querySelector(".gallery-next");
   const galleryPrev=document.querySelector(".gallery-prev");
@@ -38,7 +47,30 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLightbox()});
     gallery.addEventListener("touchstart",()=>clearInterval(galleryTimer),{passive:true});
     gallery.addEventListener("touchend",()=>galleryTimer=setInterval(()=>moveGallery(1),4200),{passive:true});
   }
+ }catch(e){console.error("Photo gallery slider init failed:",e);}
 
+ try{
+  const news=document.querySelector(".news-grid:not(.news-grid-static)");
+  const newsNext=document.querySelector(".news-next");
+  const newsPrev=document.querySelector(".news-prev");
+  if(news){
+    const moveNews=(dir)=>{
+      const card=news.querySelector(".news-card");
+      if(!card) return;
+      news.scrollBy({left:dir*(card.getBoundingClientRect().width+26),behavior:"smooth"});
+    };
+    newsNext?.addEventListener("click",()=>moveNews(1));
+    newsPrev?.addEventListener("click",()=>moveNews(-1));
+
+    let newsTimer=setInterval(()=>moveNews(1),4800);
+    news.addEventListener("mouseenter",()=>clearInterval(newsTimer));
+    news.addEventListener("mouseleave",()=>newsTimer=setInterval(()=>moveNews(1),4800));
+    news.addEventListener("touchstart",()=>clearInterval(newsTimer),{passive:true});
+    news.addEventListener("touchend",()=>newsTimer=setInterval(()=>moveNews(1),4800),{passive:true});
+  }
+ }catch(e){console.error("News slider init failed:",e);}
+
+ try{
   const reviews=document.querySelector(".review-grid");
   const dots=[...document.querySelectorAll(".review-dots span")];
   if(reviews){
@@ -61,6 +93,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLightbox()});
       reviews.scrollTo({left:next>max+5?0:next,behavior:"smooth"});
     },5000));
   }
+ }catch(e){console.error("Reviews slider init failed:",e);}
 })();
 
 
